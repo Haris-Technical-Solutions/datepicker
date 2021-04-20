@@ -1,0 +1,50 @@
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<style>
+  .cal{
+    border-color:transparent;
+    font-size:14px;
+  }
+  .cal:focus{
+    border-color:transparent;
+  }
+</style>
+<script type="text/javascript">
+  $(function() {
+    var start = moment().subtract( 'days');
+    var end = moment();
+
+
+    function cb(start, end) {
+      $('#reportrange #span').val(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    }
+
+
+    $('#reportrange').daterangepicker({
+      startDate: start,
+      endDate: end,
+      ranges: {
+      'Today': [moment(), moment()],
+      'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+      'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+      'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+      'This Month': [moment().startOf('month'), moment().endOf('month')],
+      'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+      'This Year': [moment().subtract(0, 'year').startOf('year'), moment().subtract(0, 'year').endOf('year')],
+      'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+      'Last 2 Years': [moment().subtract(2, 'year').startOf('year'), moment().subtract(2, 'year').endOf('year')],}
+    }, cb);
+    $('#span').change(function(){
+        cb(start, end);
+    });
+
+  });
+</script>
+<div id="reportrange" class="float-right mb-3 ml-2 form-control item-group" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;display:flex;">
+  <i class="fa fa-calendar mt-1"></i>
+  <input type="text" placeholder='YYYY-MM-DD to YYYY-MM-DD' name="date" style="width:100%;" class="cal mt0" value='{{isset($from,$to)? $from != '' ?$from.' to '.$to  : '': ''  }}'  autocomplete="off" id="span">
+  <i class="fa fa-angle-down float-right mt-1"></i>
+</div>
+<div id="reportrange"></div>
