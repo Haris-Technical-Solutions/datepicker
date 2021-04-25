@@ -1,0 +1,61 @@
+<div class="col-md-4">
+            <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
+            <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/daterangepicker.css') }}">
+            <script type="text/javascript">
+            $(document).ready(function(){
+              $(function() {
+                var start = moment().subtract( 'days');
+                var end = moment();
+                function clear(id){
+                    $('#'+id).val(null);
+                };
+                $('.xx').on('click',function(){
+                    clear('span');
+                });
+                function cb(start, end) {
+                  $('#reportrange #span').val(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                }
+                $('#reportrange').daterangepicker({
+                  startDate: start,
+                  endDate: end,
+                  ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    'This Year': [moment().subtract(0, 'year').startOf('year'), moment().subtract(0, 'year').endOf('year')],
+                    'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+                }
+                }, cb);
+                $('#span').on('click',function(){
+                    cb(start, end);
+                });
+              });
+            });
+            </script>
+            <style>
+                #span{
+                    /* border-radius:px; */
+                    border-color: rgba(73, 84, 87, 0.712);
+                    border-right-color: transparent;
+                }
+                .xx{
+                    /* border-radius:0px; */
+                    border-color: rgba(73, 84, 87, 0.712);
+                    border-left-color: transparent;
+                }
+
+            </style>
+            <div class="float-right"   style=" cursor: pointer;display:flex;">
+                <div id="reportrange">
+                <input type="text" placeholder='YYYY-MM-DD to YYYY-MM-DD' value="{{$def?$def:null}}" style="width:250px;" name="date" class="cal mt0 text-light form-control" value='{{isset($from,$to)? $from != '' ?$from.' to '.$to  : '': ''  }}'  autocomplete="off"  id="span">
+                </div>
+              <button class="btn btn-default xx" >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x text-primary"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+           </div>
