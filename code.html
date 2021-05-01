@@ -18,36 +18,60 @@
     border-color:transparent;
   }
 </style>
-<script type="text/javascript">
-  $(function() {
-    var start = moment().subtract( 'days');
-    var end = moment();
+ <script>
+    $(function() {
+        var start = moment().subtract( 'days');
+        var end = moment();
+        function cb(start, end) {
+            $('#reportrange #span').val(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        }
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'This Year': [moment().subtract(0, 'year').startOf('year'), moment().subtract(0, 'year').endOf('year')],
+                'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+            }
+        }, cb);
+        $('#span').click(function(){
+            $('#span').val(null);
+        });
+        $('.ranges ul li').click(function(){
+            if($(this).attr('data-range-key') == 'Custom Range'){
 
-
-    function cb(start, end) {
-      $('#reportrange #span').val(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-    }
-
-
-    $('#reportrange').daterangepicker({
-      startDate: start,
-      endDate: end,
-      ranges: {
-      'Today': [moment(), moment()],
-      'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-      'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-      'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-      'This Month': [moment().startOf('month'), moment().endOf('month')],
-      'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-      'This Year': [moment().subtract(0, 'year').startOf('year'), moment().subtract(0, 'year').endOf('year')],
-      'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
-      'Last 2 Years': [moment().subtract(2, 'year').startOf('year'), moment().subtract(2, 'year').endOf('year')],}
-    }, cb);
-    $('#span').change(function(){
-        cb(start, end);
+            }else{
+                $('#span').focus();
+            }
+        });
+        $('.applyBtn').click(function(){
+            $('#span').focus();
+        });
+        $('#span').focusout(function(){
+            var val = $('#span').val();
+            if (val.length >= 24){
+                $('#form').submit();
+                $('.loaded .loader-wrapper').css('visibility','inherit')
+                $('.loaded .loader-wrapper').css('opacity','0.7')
+            }
+        });
+        $('.clear').click(function(){
+            var val = $('#span').val();
+            if (val.length >= 24){
+                $('#reportrange').append('<input type="hidden" name="clear" value="clear">');
+                $('#form').submit();
+                $('.loaded .loader-wrapper').css('visibility','inherit')
+                $('.loaded .loader-wrapper').css('opacity','0.7')
+            }
+            $('#span').val(null);
+            $('#span').focus();
+        });
     });
-
-  });
 </script>
 <div id="reportrange" class="float-right mb-3 ml-2 form-control item-group" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;display:flex;">
   <i class="fa fa-calendar mt-1"></i>
