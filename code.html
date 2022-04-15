@@ -18,6 +18,76 @@
     border-color:transparent;
   }
 </style>
+<!--<script>
+                    $(function() {
+                        var start = moment().subtract(1,'days');
+                        var end = moment();
+                        function cb(start, end) {
+                            $('#reportrange #span').val(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                        }
+                        $('#reportrange').daterangepicker({
+                            startDate: start,
+                            endDate: end,
+                            ranges: {
+                                'Today': [moment(), moment()],
+                                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                                'This Year': [moment().subtract(0, 'year').startOf('year'), moment().subtract(0, 'year').endOf('year')],
+                                'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+                            }
+                        }, cb);
+
+                        $('#span').val("{{$_GET['range']}}");
+                        $('.ranges ul li').click(function(){
+                            if($(this).attr('data-range-key') != 'Custom Range'){
+                                locate();
+                            }
+                        });
+                        $('.ranges ul li').removeClass('active');
+                        $('.applyBtn').click(function(){
+                            locate();
+                        });
+                        $('#span').on('input',function(){
+                            var val = $('#span').val();
+                            if (val.length >= 24){
+                                locate();
+                            }
+                        });
+                        $('#status').change(function(){
+                            locate();
+                        });
+                        $('.clear').click(function(){
+                            var val = $('#span').val();
+                            locate_to('{{date('Y-m-01').' to '.date('Y-m-t')}}');
+                        });
+                        function locate(){
+                            if($('#span').val() == null){
+                                msgboxbox.show('Date Range Field cannot be empty!');
+                            }else{
+                                setTimeout(function(){
+                                    $('.loaded .loader-wrapper').css('visibility','inherit');
+                                    $('.loaded .loader-wrapper').css('opacity','0.7');
+                                    var url = location.pathname+"?range="+$('#span').val()+'&status='+$('#status option:selected').val();
+                                    window.location.replace(url);
+                                }, 500);
+                            }
+                        }
+                        function locate_to(to){
+                            $('.loaded .loader-wrapper').css('visibility','inherit');
+                            $('.loaded .loader-wrapper').css('opacity','0.7');
+                            var url = location.pathname+"?range="+to+'&status='+$('#status option:selected').val();
+                            window.location.replace(url);
+                        }
+                    });
+                    $(document).ready(function(){
+                        $('.print-link').on('click', function() {
+                            window.print();
+                        });
+                    })
+                </script>-->
  <script>
     $(function() {
         var start = moment().subtract( 'days');
